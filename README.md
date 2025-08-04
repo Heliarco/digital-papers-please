@@ -41,10 +41,9 @@ digital-papers-please/
 ## 🚀 Getting Started
 
 This repository provides:
-- JSON schemas for standardized data breach notifications
-- Templates for inevitable security incident reports  
-- Sample leaked database structures (for educational purposes)
-- API specifications for post-breach citizen notification systems
+- JSON schemas for standardized data breach dumps
+- Templates for inevitable security incident reports
+- Guidelines for post-breach citizen notification systems and best practices
 - Compliance checklists for when everything inevitably goes wrong
 
 ## 🎯 Mission Statement
@@ -77,7 +76,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## ⚠️ Disclaimer
 
-This is a work of satire commenting on recent EU legislation requiring age verification. No actual surveillance infrastructure was implemented in the making of this repository.
+This is a work of satire commenting on recent EU legislation requiring age verification. No actual surveillance infrastructure was implemented - yet - in the making of this repository.
 
 ---
 
@@ -85,6 +84,6 @@ This is a work of satire commenting on recent EU legislation requiring age verif
 
 *Remember: A society that values security over liberty shall receive neither... but at least we'll have really good compliance metrics!*
 
-**Made with 😤 and existential dread**
+**Made with Claude and existential dread**
 
 </div>

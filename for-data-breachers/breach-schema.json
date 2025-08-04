@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EU Age Verification Data Breach Schema",
+  "description": "Standardized format for inevitable age verification database leaks",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["breach_metadata", "citizen_records", "system_info"],
+  "properties": {
+    "breach_metadata": {
+      "type": "object",
+      "description": "Information about the breach itself",
+      "required": ["member_state", "breach_date", "discovery_date", "extraction_method"],
+      "properties": {
+        "member_state": {
+          "type": "string",
+          "description": "EU member state that got breached",
+          "examples": ["DE", "FR", "IT", "PL"]
+        },
+        "breach_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the breach actually occurred (usually months before discovery)"
+        },
+        "discovery_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When someone finally noticed"
+        },
+        "extraction_method": {
+          "type": "string",
+          "enum": ["sql_injection", "insider_threat", "misconfigured_s3", "default_passwords", "social_engineering", "other"],
+          "description": "How the data was obtained"
+        },
+        "estimated_records": {
+          "type": "integer",
+          "description": "Approximate number of affected citizens"
+        },
+        "completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Percentage of database successfully extracted"
+        }
+      }
+    },
+    "citizen_records": {
+      "type": "array",
+      "description": "The actual leaked citizen data",
+      "items": {
+        "type": "object",
+        "required": ["citizen_id"],
+        "properties": {
+          "citizen_id": {
+            "type": "string",
+            "description": "National identifier (ID card, passport, etc.)"
+          },
+          "personal_data": {
+            "type": "object",
+            "properties": {
+              "full_name": {"type": "string"},
+              "date_of_birth": {"type": "string", "format": "date"},
+              "address": {"type": "string"},
+              "email": {"type": "string", "format": "email"},
+              "phone": {"type": "string"},
+              "biometric_hash": {
+                "type": "string",
+                "description": "Hashed biometric data (if poorly implemented)"
+              }
+            }
+          },
+          "verification_records": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": {"type": "string", "format": "date-time"},
+                "service_requested": {"type": "string"},
+                "ip_address": {"type": "string"},
+                "user_agent": {"type": "string"},
+                "verification_method": {
+                  "type": "string",
+                  "enum": ["id_document", "biometric", "credit_card", "bank_verification"]
+                },
+                "verification_photos": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "description": "Base64 encoded photos or file paths"
+                }
+              }
+            }
+          },
+          "linked_accounts": {
+            "type": "array",
+            "description": "Other government services linked to this identity",
+            "items": {
+              "type": "object",
+              "properties": {
+                "service_name": {"type": "string"},
+                "account_id": {"type": "string"},
+                "last_accessed": {"type": "string", "format": "date-time"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "system_info": {
+      "type": "object",
+      "description": "Technical details about the breached system",
+      "properties": {
+        "database_version": {"type": "string"},
+        "last_backup_date": {"type": "string", "format": "date-time"},
+        "encryption_status": {
+          "type": "string",
+          "enum": ["none", "weak", "broken", "allegedly_strong"],
+          "description": "Encryption implementation quality"
+        },
+        "admin_credentials": {
+          "type": "array",
+          "description": "Found admin passwords (usually 'password123')",
+          "items": {
+            "type": "object",
+            "properties": {
+              "username": {"type": "string"},
+              "password": {"type": "string"},
+              "access_level": {"type": "string"}
+            }
+          }
+        },
+        "security_measures": {
+          "type": "array",
+          "description": "List of security measures that clearly didn't work",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "legal_implications": {
+      "type": "object",
+      "description": "Potential legal consequences",
+      "properties": {
+        "gdpr_violations": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "estimated_fines": {
+          "type": "number",
+          "description": "Potential GDPR fines in EUR"
+        },
+        "affected_minors": {
+          "type": "integer",
+          "description": "Number of under-18 records (makes it worse)"
+        }
+      }
+    }
+  }
+}
